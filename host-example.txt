@@ -1,0 +1,33 @@
+[web_servers]
+web1 ansible_host=192.168.1.10 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+web2 ansible_host=192.168.1.11 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[db_servers]
+db1 ansible_host=192.168.1.20 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+db2 ansible_host=192.168.1.21 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[monitoring]
+monitor1 ansible_host=192.168.1.30 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+monitor2 ansible_host=192.168.1.31 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[load_balancer]
+lb1 ansible_host=192.168.1.40 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+# 组变量配置
+[web_servers:vars]
+ansible_python_interpreter=/usr/bin/python3
+node_env=production
+
+[db_servers:vars]
+ansible_python_interpreter=/usr/bin/python3
+postgres_version=15
+
+[monitoring:vars]
+ansible_python_interpreter=/usr/bin/python3
+grafana_admin_password=secure_grafana_password
+
+# 所有服务器的公共配置
+[all:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_become=yes
+ansible_become_method=sudo
